@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <h2>Sign up</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type='submit'>Sign up</button>
+    </form>
+    {% if form.errors %}
+    <ul class="errorlist">
+        {% for field in form %}
+            {% if field.errors %}
+                <li>{{ field.label }}:
+                    <ul class="errorlist">
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+{% endif %}
+{% endblock %}
