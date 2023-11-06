@@ -7,19 +7,19 @@ class TaskCategory(models.Model):
     def __str__(self):
         return self.name
     
+STATUS_CHOICES = (
+    ('To-Do', 'To-Do'),
+    ('In Progress', 'In Progress'),
+    ('Completed', 'Completed'),)
+    
 class Task(models.Model):
-    STATUS_CHOICES = (
-        
-        ('In Progress', 'In Progress'),
-        ('Completed', 'Completed'),
-    )
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     title = models.CharField(max_length=200)
     description = models.TextField()
-    due_date = models.DateField()
-    category = models.ForeignKey('TaskCategory', on_delete=models.SET_NULL, null=True, blank=True)
+    due_date = models.DateField(auto_now_add=True)
+    category = models.ForeignKey(TaskCategory, on_delete=models.SET_NULL, null=True, blank=True)
     completed = models.BooleanField(default=False)
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='In Progress')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='To-Do')
     
     def __str__(self):
         return self.title    

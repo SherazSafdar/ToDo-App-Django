@@ -22,4 +22,4 @@ class LoginForm(AuthenticationForm):
 
 
 class TaskSearchForm(forms.Form):
-    search_query = forms.CharField(label='Search Tasks', max_length=100)
+    search_query = forms.CharField(label='Search Tasks', max_length=100, required=False)
