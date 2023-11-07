@@ -94,6 +94,8 @@ def register(request):
     return render(request, 'registration/register.html', {'form': form})
 
 def custom_login(request):
+    if request.user.is_authenticated:
+        return redirect('task_list')
     if request.method == 'POST':
         form = AuthenticationForm(request, request.POST)
         if form.is_valid():

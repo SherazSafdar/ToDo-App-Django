@@ -51,6 +51,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'TaskMaster.urls'
+LOGIN_REDIRECT_URL = 'task_list'
 
 TEMPLATES = [
     {
