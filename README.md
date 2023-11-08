@@ -11,7 +11,7 @@ A simple Todo application built with Django.
 
 1. Clone the repository:
 
-git clone https://github.com/abc/todo-app.git
+git clone https://github.com/SherazSafdar/ToDo-App-Django
 
 
 2. Change to the project directory:
