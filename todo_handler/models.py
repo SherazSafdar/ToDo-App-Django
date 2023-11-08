@@ -24,6 +24,3 @@ class Task(models.Model):
     
     def __str__(self):
         return f"title {self.title} id {self.id}"    
-    
-#
-#
