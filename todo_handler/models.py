@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import datetime
 
 class TaskCategory(models.Model):
     name = models.CharField(max_length=100)
@@ -16,7 +17,7 @@ class Task(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     title = models.CharField(max_length=200)
     description = models.TextField()
-    due_date = models.DateField(auto_now_add=True)
+    due_date = models.DateField()
     category = models.ForeignKey(TaskCategory, on_delete=models.SET_NULL, null=True, blank=True)
     completed = models.BooleanField(default=False)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='To-Do')
