@@ -14,7 +14,7 @@ STATUS_CHOICES = (
     ('Completed', 'Completed'),)
     
 class Task(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     description = models.TextField()
     due_date = models.DateField()
