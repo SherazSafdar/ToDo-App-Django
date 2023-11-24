@@ -3,9 +3,16 @@ from api.serializers import TaskSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.authentication import BasicAuthentication
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.authentication import BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 @api_view(['POST'])
+@authentication_classes([BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def create_task(request):
+    print(request.user)
     if request.method=='POST':
         serializer = TaskSerializer(data=request.data)
         if serializer.is_valid():
@@ -14,7 +21,9 @@ def create_task(request):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
-@api_view(['GET', 'PUT', 'PATCH', 'DELETE'])            
+@api_view(['GET', 'PUT', 'PATCH', 'DELETE']) 
+@authentication_classes([BasicAuthentication])
+@permission_classes([IsAuthenticated])           
 def retrieve_task(request, task_id):
     try:
         task = Task.objects.get(id=task_id)
@@ -43,35 +52,4 @@ def retrieve_task(request, task_id):
         
     elif request.method=='DELETE':
         task.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)       
-    
-    
-
-        
-    #elif request.method in ['PUT', 'PATCH']:
-    #    task_id = request.data.get('id')
-    #    
-    #    if not task_id:
-    #        return Response({'error': 'Task ID is required for update operations.'}, status=status.HTTP_400_BAD_REQUEST)
-
-    #    try:
-    #        task = Task.objects.get(id=task_id)
-    #    except Task.DoesNotExist:
-    #        return Response({'error': 'Task not found.'}, status=status.HTTP_404_NOT_FOUND)
-
-    #    if request.method == 'PUT':
-    #        serializer = TaskSerializer(task, data=request.data)
-    #    elif request.method == 'PATCH':
-    #        serializer = TaskSerializer(task, data=request.data, partial=True)
-
-    #    if serializer.is_valid():
-    #        serializer.save()
-    #        return Response(serializer.data)
-    #    else:
-    #        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    #elif request.method == 'DELETE':
-    #    task_ids_to_delete = request.data.get('task_ids', [])
-    #    tasks = Task.objects.filter(id__in=task_ids_to_delete)
-    #    tasks.delete()
-    #    return Response(status=status.HTTP_204_NO_CONTENT)
-    #return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        return Response(status=status.HTTP_204_NO_CONTENT)
