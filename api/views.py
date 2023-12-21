@@ -7,6 +7,10 @@ from rest_framework.authentication import BasicAuthentication
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authtoken.models import Token
+from rest_framework_simplejwt.authentication import JWTAuthentication
+
 
 @api_view(['POST'])
 @authentication_classes([BasicAuthentication])
@@ -55,10 +59,10 @@ def retrieve_task(request, task_id):
         return Response(status=status.HTTP_204_NO_CONTENT)
     
     
-# class based
+# Class Based
 
 class CreateTaskView(APIView):
-    authentication_classes = [BasicAuthentication]
+    authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
     def post(self, request):
         serializer = TaskSerializer(data=request.data)
@@ -69,9 +73,10 @@ class CreateTaskView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
 class TaskView(APIView):
-    authentication_classes = [BasicAuthentication]
+    
+    authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
-
+    
     def get_object(self, task_id):
         try:
             return Task.objects.get(id=task_id)
